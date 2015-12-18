@@ -22,3 +22,10 @@ The HTK.py file isn't neccessary, but if you want, you can use it to compute the
 
 For a demonstration of its use, take a look at the contents of the python-test directory.
 
+## How does it work?
+
+Open the HTKFeaturesExplained notebook in the python-notebooks folder and play around with it. Everythin is explained there.
+
+## Who made this?
+
+If you have any questions, feel free to contact me at: danijel@pja.edu.pl
