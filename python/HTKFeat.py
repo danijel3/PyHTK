@@ -240,7 +240,7 @@ class MFCC_HTK:
 			melspec=np.dot(win,self.filter_mat)			
 
 			#floor (before log)
-			#melspec[melspec<1]=1
+			melspec[melspec<0.001]=0.001
 
 			#log
 			melspec=np.log(melspec)	
