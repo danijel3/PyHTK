@@ -99,7 +99,7 @@ class MFCC_HTK:
 		win_len=400,
 		win_shift=160,
 		preemph=0.97,
-		filter_num=24,
+		filter_num=26,
 		lifter_num=22,
 		mfcc_num=12,
 		lo_freq = 80,
