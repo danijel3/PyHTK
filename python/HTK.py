@@ -18,8 +18,8 @@ def HCopy(conf, wav, htk):
     output=None
     try:
         output=subprocess.check_output(["HCopy","-C",conf,"-T","1",wav,htk])
-    except subprocess.CalledProcessError, e:
-        print 'EXC '+str(e)
+    except subprocess.CalledProcessError as e:
+        print ('EXC {}'.format(e))
     return output
 
 class HTKFile:
@@ -94,31 +94,31 @@ class HTKFile:
                 self.basicKind = "ERROR"
            
             self.qualifiers=[]
-            if ((paramKind & 0100) != 0):
+            if ((paramKind & 0o100) != 0):
                 self.qualifiers.append("E")
-            if ((paramKind & 0200) != 0):
+            if ((paramKind & 0o200) != 0):
                 qualifiers.append("N")
-            if ((paramKind & 0400) != 0):
+            if ((paramKind & 0o400) != 0):
                 self.qualifiers.append("D")
-            if ((paramKind & 01000) != 0):
+            if ((paramKind & 0o1000) != 0):
                 self.qualifiers.append("A")
-            if ((paramKind & 02000) != 0):
+            if ((paramKind & 0o2000) != 0):
                 self.qualifiers.append("C")
-            if ((paramKind & 04000) != 0):
+            if ((paramKind & 0o4000) != 0):
                 self.qualifiers.append("Z")
-            if ((paramKind & 010000) != 0):
+            if ((paramKind & 0o10000) != 0):
                 self.qualifiers.append("K")
-            if ((paramKind & 020000) != 0):
+            if ((paramKind & 0o20000) != 0):
                 self.qualifiers.append("0")
-            if ((paramKind & 040000) != 0):
+            if ((paramKind & 0o40000) != 0):
                 self.qualifiers.append("V")
-            if ((paramKind & 0100000) != 0):
+            if ((paramKind & 0o100000) != 0):
                 self.qualifiers.append("T")
                 
             if "C" in self.qualifiers or "V" in self.qualifiers or self.basicKind is "IREFC" or self.basicKind is "WAVEFORM":
-                self.nFeatures = sampSize / 2
+                self.nFeatures = sampSize // 2
             else:
-                self.nFeatures = sampSize / 4
+                self.nFeatures = sampSize // 4
             
             if "C" in self.qualifiers:
                 self.nSamples -= 4
@@ -163,4 +163,4 @@ class HTKFile:
             
             
             if "K" in self.qualifiers:
-                print "CRC checking not implememnted..."
+                print("CRC checking not implememnted...")

@@ -71,7 +71,7 @@ class MFCC_HTK:
 		"""
 
 		self.filter_num=num
-		self.filter_mat=np.zeros((self.fft_len/2,self.filter_num))
+		self.filter_mat=np.zeros((self.fft_len//2,self.filter_num))
 
 		mel2freq = lambda mel: 700.0*(np.exp((mel)/1127.0)-1)
 		freq2mel = lambda freq: 1127*(np.log(1+((freq)/700.0)))

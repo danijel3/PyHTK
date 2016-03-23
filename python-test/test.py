@@ -10,7 +10,7 @@ from HTK import HCopy, HTKFile
 #we import some extra libs here for comparison and visualization
 import numpy as np
 import matplotlib
-matplotlib.rcParams['backend'] = "Qt4Agg"
+matplotlib.rcParams['backend'] = 'pdf'
 import matplotlib.pyplot as P
 
 #setting up the main class
@@ -39,8 +39,8 @@ htk.load('file.htk')
 diff=feat-htk.data
 
 #computing and dsiplaying the maximum difference between the two methods
-print "Maximum difference: "+str(np.max(np.abs(diff)))
+print("Maximum difference: {}".format(np.max(np.abs(diff))))
 
 #displaying the difference
 P.pcolormesh(diff.T)
-P.show()
+P.savefig('diff.png')
