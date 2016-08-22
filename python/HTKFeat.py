@@ -199,6 +199,12 @@ class MFCC_HTK:
 
         self.fft_len = 2 ** int(np.asscalar((np.floor(np.log2(self.win_len)) + 1)))
 
+        nyquist = self.samp_freq / 2
+        if self.lo_freq < 0 or self.lo_freq > nyquist:
+            self.lo_freq = 0
+        if self.hi_freq < 0 or self.hi_freq > nyquist:
+            self.hi_freq = nyquist
+
         if filter_file:
             self.load_filter(filter_file)
         else:
@@ -213,12 +219,6 @@ class MFCC_HTK:
         self.lifter = 1 + (self.lifter_num / 2) * np.sin(np.pi * (1 + np.arange(self.mfcc_num)) / self.lifter_num);
 
         self.mfnorm = np.sqrt(2.0 / self.filter_num)
-
-        nyquist = self.samp_freq / 2
-        if self.lo_freq < 0 or self.lo_freq > nyquist:
-            self.lo_freq = 0
-        if self.hi_freq < 0 or self.hi_freq > nyquist:
-            self.hi_freq = nyquist
 
     @staticmethod
     def load_raw_signal(filename):
