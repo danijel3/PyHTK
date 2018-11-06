@@ -42,6 +42,7 @@ class HTKFile:
     sampPeriod = 0
     basicKind = None
     qualifiers = None
+    endian = '>'
 
     def load(self, filename):
         """ Loads HTK file.
@@ -66,7 +67,8 @@ class HTKFile:
             header = f.read(12)
             self.nSamples, self.sampPeriod, sampSize, paramKind = struct.unpack(">iihh", header)
             if self.nSamples<0 or self.sampPeriod<0 or sampSize<0:
-                self.nSamples, self.sampPeriod, sampSize, paramKind = struct.unpack("<iihh", header)
+                self.endian = '<'
+                self.nSamples, self.sampPeriod, sampSize, paramKind = struct.unpack(self.endian+"iihh", header)
             basicParameter = paramKind & 0x3F
 
             if basicParameter is 0:
@@ -135,7 +137,7 @@ class HTKFile:
                     s = f.read(sampSize)
                     frame = []
                     for v in range(self.nFeatures):
-                        val = struct.unpack_from(">h", s, v * 2)[0] / 32767.0
+                        val = struct.unpack_from(self.endian+"h", s, v * 2)[0] / 32767.0
                         frame.append(val)
                     self.data.append(frame)
             elif "C" in self.qualifiers:
@@ -143,24 +145,24 @@ class HTKFile:
                 A = []
                 s = f.read(self.nFeatures * 4)
                 for x in range(self.nFeatures):
-                    A.append(struct.unpack_from(">f", s, x * 4)[0])
+                    A.append(struct.unpack_from(self.endian+"f", s, x * 4)[0])
                 B = []
                 s = f.read(self.nFeatures * 4)
                 for x in range(self.nFeatures):
-                    B.append(struct.unpack_from(">f", s, x * 4)[0])
+                    B.append(struct.unpack_from(self.endian+"f", s, x * 4)[0])
 
                 for x in range(self.nSamples):
                     s = f.read(sampSize)
                     frame = []
                     for v in range(self.nFeatures):
-                        frame.append((struct.unpack_from(">h", s, v * 2)[0] + B[v]) / A[v])
+                        frame.append((struct.unpack_from(self.endian+"h", s, v * 2)[0] + B[v]) / A[v])
                     self.data.append(frame)
             else:
                 for x in range(self.nSamples):
                     s = f.read(sampSize)
                     frame = []
                     for v in range(self.nFeatures):
-                        val = struct.unpack_from(">f", s, v * 4)
+                        val = struct.unpack_from(self.endian+"f", s, v * 4)
                         frame.append(val[0])
                     self.data.append(frame)
 
