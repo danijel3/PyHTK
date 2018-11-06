@@ -65,6 +65,8 @@ class HTKFile:
 
             header = f.read(12)
             self.nSamples, self.sampPeriod, sampSize, paramKind = struct.unpack(">iihh", header)
+            if self.nSamples<0 or self.sampPeriod<0 or sampSize<0:
+                self.nSamples, self.sampPeriod, sampSize, paramKind = struct.unpack("<iihh", header)
             basicParameter = paramKind & 0x3F
 
             if basicParameter is 0:
