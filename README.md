@@ -18,11 +18,45 @@ The MFCC feature set, as implemented in this little project, is one of the best 
 
 Simply copy the HTKFeat.py file to your project and use the MFCC_HTK class from within. The class is throughly documented.
 
-Also look at some tests in the test directory.
+If you prefer, you can also install the file as a library:
+
+```bash
+pip install https://github.com/danijel3/PyHTK.git
+```
+
+Then you can access the class in your project using code like this:
+
+```python
+# import the main class
+from pyhtk.HTKFeat import MFCC_HTK 
+
+# these are additional libraries for this example
+from pathlib import Path
+import numpy as np
+
+# contstruct the main mfcc object
+# you can also change some arguments inside
+mfcc = MFCC_HTK()
+
+# load the raw audio file
+sig = mfcc.load_raw_signal(Path("file.raw"))
+
+# here we calculate the MFCC+energy, deltas and acceleration coefficients
+feat = mfcc.get_feats(sig)
+delta = mfcc.get_delta(feat, 2)
+acc = mfcc.get_delta(delta, 2)
+
+# merge the MFCCs and deltas together to get 39 features
+feat = np.hstack((feat, delta, acc))
+
+print(feat.shape)
+```
 
 ## How does it work?
 
 Open the HTKFeaturesExplained notebook in the notebooks folder and play around with it. Everythin is explained there.
+
+Also the the `test.py` script in the tests folder compares this library to the original HTK code so you can validate its accuracy.
 
 ## Who made this?
 
