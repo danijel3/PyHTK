@@ -1,0 +1,20 @@
+[project]
+name = "pyhtk"
+version = "0.1.0"
+description = "This project contains a Python implementation of the MFCC features as computed by HTK."
+authors = [
+    {name = "Danijel Korzinek",email = "danijel@korzinek.com"}
+]
+license = {text = "Apache License 2.0"}
+readme = "README.md"
+requires-python = ">=3.9.0"
+dependencies = [
+    "numpy>=2.0.0"
+]
+
+[project.optional-dependencies]
+tests = ["matplotlib>=3.0.0"]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

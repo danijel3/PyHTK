@@ -1,25 +1,20 @@
-# we set up the path to the lib here
-# you can skip this if you store the files in your project
-import sys
-
-sys.path.append('../python')
-
 # these are the only imports you really need
-from HTKFeat import MFCC_HTK
-from HTK import HCopy, HTKFile
+from pyhtk.HTKFeat import MFCC_HTK
+from tests.HTK import HCopy, HTKFile
 
 # we import some extra libs here for comparison and visualization
+from pathlib import Path
 import numpy as np
 import matplotlib
 
-matplotlib.rcParams['backend'] = 'pdf'
+matplotlib.rcParams["backend"] = "pdf"
 import matplotlib.pyplot as P
 
 # setting up the main class
-mfcc = MFCC_HTK(filter_file='filter.csv')
+mfcc = MFCC_HTK(filter_file=Path("tests/filter.csv"))
 
 # here we load the raw audio file
-sig = mfcc.load_raw_signal('file.raw')
+sig = mfcc.load_raw_signal(Path("tests/file.raw"))
 
 # here we calculate the MFCC+energy, deltas and acceleration coefficients
 feat = mfcc.get_feats(sig)
@@ -30,12 +25,16 @@ acc = mfcc.get_delta(delta, 2)
 feat = np.hstack((feat, delta, acc))
 
 # here we use HTK to calculate the same thing
-# you can comment this line if you don't have HTK installed
-HCopy('hcopy.conf', 'file.raw', 'file.htk')
+try:
+    HCopy("hcopy.conf", "tests/file.raw", "file.htk")
+except FileNotFoundError:
+    # you need HTK installed for the above to work
+    print("HTK not found! Skipping...")
+    # if you don't have HTK, the file is stored on the repo anyway
 
 # here we load the features generate by the command above
 htk = HTKFile()
-htk.load('file.htk')
+htk.load("tests/file.htk")
 
 # calculating the difference between features
 diff = feat - htk.data
@@ -45,4 +44,4 @@ print("Maximum difference: {}".format(np.max(np.abs(diff))))
 
 # displaying the difference
 P.pcolormesh(diff.T)
-P.savefig('diff.png')
+P.savefig("tests/diff.png")

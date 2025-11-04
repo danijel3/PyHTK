@@ -18,13 +18,11 @@ The MFCC feature set, as implemented in this little project, is one of the best 
 
 Simply copy the HTKFeat.py file to your project and use the MFCC_HTK class from within. The class is throughly documented.
 
-The HTK.py file isn't neccessary, but if you want, you can use it to compute the same features using the HCopy program which is a part of HTK.
-
-For a demonstration of its use, take a look at the contents of the python-test directory.
+Also look at some tests in the test directory.
 
 ## How does it work?
 
-Open the HTKFeaturesExplained notebook in the python-notebooks folder and play around with it. Everythin is explained there.
+Open the HTKFeaturesExplained notebook in the notebooks folder and play around with it. Everythin is explained there.
 
 ## Who made this?
 
